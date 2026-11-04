@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#078c3d">
+    <title>Book a Ride | PHYNEX RIDE</title>
+    <link rel="stylesheet" href="customer.css">
+</head>
+<body>
+    <header class="app-header">
+        <a class="brand-lockup" href="index.html" aria-label="Back to PHYNEX RIDE welcome page">
+            <img src="images/phynex-mark.png" alt="">
+            <span>PHYNEX <strong>RIDE</strong></span>
+        </a>
+        <div class="account-actions">
+            <span class="account-name" id="account-name"></span>
+            <button type="button" class="header-link sign-out-button" id="sign-out">Sign out</button>
+        </div>
+    </header>
+
+    <main class="customer-shell">
+        <section class="booking-intro">
+            <p class="eyebrow">YOUR CITY. YOUR RIDE.</p>
+            <h1>Where are you<br>going today?</h1>
+            <p>Reliable rides around Nairobi, at a price you know upfront.</p>
+        </section>
+
+        <div class="ride-layout">
+            <section class="booking-card" id="booking-card">
+                <div class="card-heading">
+                    <span class="step-badge">01</span>
+                    <div><h2>Plan your ride</h2><p>Start from where you are, or choose another pickup.</p></div>
+                </div>
+                <form id="ride-form">
+                    <label class="field-label" for="customer-name">Your name</label>
+                    <input id="customer-name" name="customerName" autocomplete="name" placeholder="e.g. Alex Kimani" required minlength="2" maxlength="80">
+
+                    <div class="location-fields">
+                        <label class="location-field pickup-field" for="pickup">
+                            <span class="location-pin pickup-pin" aria-hidden="true"></span>
+                            <span class="field-label">Pickup</span>
+                            <input id="pickup" name="pickup" autocomplete="off" placeholder="Use GPS or search a pickup" required minlength="2" maxlength="120">
+                            <input id="pickup-lat" name="pickupLat" type="hidden">
+                            <input id="pickup-lng" name="pickupLng" type="hidden">
+                        </label>
+                        <div class="route-connector" aria-hidden="true"></div>
+                        <label class="location-field" for="destination">
+                            <span class="location-pin destination-pin" aria-hidden="true"></span>
+                            <span class="field-label">Destination</span>
+                            <input id="destination" name="destination" autocomplete="off" placeholder="Search your destination" required minlength="2" maxlength="120">
+                            <input id="destination-lat" name="destinationLat" type="hidden">
+                            <input id="destination-lng" name="destinationLng" type="hidden">
+                        </label>
+                    </div>
+                    <div class="location-actions">
+                        <button class="text-button" type="button" id="use-current-location">Use my current location</button>
+                        <div class="location-search-actions">
+                            <button class="location-search-button" type="button" id="search-pickup-location">Search pickup</button>
+                            <button class="location-search-button" type="button" id="search-destination-location">Search destination</button>
+                        </div>
+                        <p class="location-message" id="location-message" role="status" hidden></p>
+                    </div>
+                    <div class="location-results" id="location-results" role="listbox" aria-label="Location search results" hidden></div>
+
+                    <fieldset class="vehicle-picker">
+                        <legend>Choose a car or bike</legend>
+                        <label class="vehicle-option">
+                            <input type="radio" name="vehicleType" value="car" checked>
+                            <span class="vehicle-icon" aria-hidden="true">CAR</span>
+                            <span class="vehicle-name">Car</span>
+                            <span class="vehicle-rate">KSh 50/km · min 250</span>
+                            <strong class="vehicle-price">Set your route</strong>
+                        </label>
+                        <label class="vehicle-option">
+                            <input type="radio" name="vehicleType" value="bike">
+                            <span class="vehicle-icon bike-icon" aria-hidden="true">BIKE</span>
+                            <span class="vehicle-name">Bike</span>
+                            <span class="vehicle-rate">KSh 30/km · min 150</span>
+                            <strong class="vehicle-price">Set your route</strong>
+                        </label>
+                    </fieldset>
+                    <p class="distance-summary" id="distance-summary" aria-live="polite">Choose a pickup and destination to see the distance and fare.</p>
+                    <fieldset class="driver-picker" id="driver-picker" hidden>
+                        <legend>Choose a driver</legend>
+                        <p class="driver-picker-message" id="driver-picker-message" role="status">Finding nearby drivers…</p>
+                        <div class="driver-options" id="driver-options"></div>
+                    </fieldset>
+
+                    <fieldset class="payment-picker">
+                        <legend>Payment method</legend>
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="cash" checked>
+                            <span><strong>Cash</strong><small>Pay your driver after the trip</small></span>
+                        </label>
+                        <label class="payment-option" id="mpesa-option">
+                            <input type="radio" name="paymentMethod" value="mpesa">
+                            <span><strong>M-Pesa</strong><small>Approve a secure phone prompt</small></span>
+                        </label>
+                    </fieldset>
+
+                    <p class="form-message" id="form-message" role="alert" hidden></p>
+                    <p class="service-message" id="service-message" role="status" hidden></p>
+                    <button class="primary-button" type="submit" id="book-button" disabled>Find a Driver <span aria-hidden="true">→</span></button>
+                    <p class="secure-note"><span aria-hidden="true">✓</span> Fare uses the driving distance; each started kilometre is billed.</p>
+                </form>
+            </section>
+
+            <section class="tracking-card" id="tracking-card" hidden aria-live="polite">
+                <div class="tracking-map" id="tracking-map" role="region" aria-label="Ride map">
+                    <p class="map-notice" id="tracking-map-notice">Loading ride map…</p>
+                </div>
+                <div class="tracking-content">
+                    <span class="status-pill" id="ride-status">Finding a driver</span>
+                    <h2 id="tracking-title">Your ride is being matched</h2>
+                    <p class="tracking-route"><span id="tracking-pickup"></span><span class="route-arrow">→</span><span id="tracking-destination"></span></p>
+                    <div class="tracking-details">
+                        <div><span class="detail-label">Vehicle</span><strong id="tracking-vehicle"></strong></div>
+                        <div><span class="detail-label">Driving distance</span><strong id="tracking-distance"></strong></div>
+                        <div id="ride-time-detail" hidden><span class="detail-label">Trip time</span><strong id="tracking-time">0 min</strong></div>
+                        <div><span class="detail-label">Fare</span><strong id="tracking-fare"></strong></div>
+                        <div id="driver-detail" hidden><span class="detail-label">Your driver</span><strong id="tracking-driver"></strong></div>
+                        <div id="payment-detail"><span class="detail-label">Payment</span><strong id="tracking-payment"></strong></div>
+                    </div>
+                    <div class="ride-progress" id="ride-progress">
+                        <span class="progress-step" data-status="requested">Finding driver</span>
+                        <span class="progress-step" data-status="accepted">Driver assigned</span>
+                        <span class="progress-step" data-status="in_progress">On your way</span>
+                        <span class="progress-step" data-status="completed">Completed</span>
+                    </div>
+                    <p class="tracking-message" id="tracking-message"></p>
+                    <a class="driver-call" id="call-driver" hidden></a>
+                    <p class="form-message" id="tracking-error" role="alert" hidden></p>
+                    <button class="cancel-button" id="cancel-ride" type="button" hidden>Cancel request</button>
+                    <button class="secondary-button" id="book-another" type="button" hidden>Book another ride</button>
+                </div>
+            </section>
+
+            <aside class="map-card">
+                <div class="map-heading"><p class="eyebrow">LIVE MAP</p><h2>Choose your locations</h2><p>Search a place, use your GPS pickup, or tap the map.</p></div>
+                <div class="map-select-controls" role="group" aria-label="Choose which location to set on the map">
+                    <span>Tap map to set:</span>
+                    <button class="map-select-button is-selected" id="select-pickup-map" type="button" aria-pressed="true">Pickup</button>
+                    <button class="map-select-button" id="select-destination-map" type="button" aria-pressed="false">Destination</button>
+                </div>
+                <div class="booking-map" id="booking-map" role="region" aria-label="Pickup and destination map">
+                    <p class="map-notice" id="booking-map-notice">Loading map settings…</p>
+                </div>
+                <p class="map-attribution" id="map-attribution">Map data by Google Maps.</p>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="customer-footer"><span>© 2026 PHYNEX RIDE</span><span>Made for Nairobi</span></footer>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

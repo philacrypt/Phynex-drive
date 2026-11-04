@@ -1,0 +1,176 @@
+@import url("customer.css");
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 87% 14%, rgba(168, 229, 188, 0.22), transparent 36%),
+        #f4f8f5;
+}
+
+.portal-shell {
+    width: min(100% - 36px, 480px);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 26px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.portal-brand {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #17231d;
+    font-size: 14px;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.portal-brand img {
+    width: 55px;
+}
+
+.portal-brand strong {
+    color: #078c3d;
+}
+
+.portal-content {
+    margin: auto 0;
+    padding: 36px 0;
+}
+
+.portal-eyebrow {
+    margin: 0 0 12px;
+    color: #078c3d;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.portal-content h1 {
+    margin: 0;
+    color: #17231d;
+    font-size: clamp(38px, 9vw, 52px);
+    line-height: 1.03;
+    letter-spacing: -1.8px;
+}
+
+.portal-intro {
+    margin: 14px 0 24px;
+    color: #78827c;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.sign-in-form {
+    padding: 22px;
+    border: 1px solid #e4ebe5;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(23, 54, 35, 0.05);
+}
+
+.auth-label {
+    display: block;
+    margin: 0 0 7px;
+    color: #344139;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.sign-in-form input {
+    width: 100%;
+    height: 46px;
+    margin-bottom: 17px;
+    padding: 0 13px;
+    border: 1px solid #e0e7e1;
+    border-radius: 10px;
+    color: #17231d;
+    background: #fcfdfc;
+    font: inherit;
+    font-size: 14px;
+}
+
+.sign-in-form input:focus {
+    border-color: #52b779;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(7, 140, 61, 0.1);
+}
+
+.auth-hint {
+    margin: -7px 0 15px;
+    color: #87918a;
+    font-size: 11px;
+}
+
+.recaptcha {
+    min-height: 80px;
+    margin: 0 0 14px;
+}
+
+.auth-button {
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    border-radius: 11px;
+    color: white;
+    background: linear-gradient(110deg, #0b9a45, #057734);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.auth-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.resend-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px;
+    border: 0;
+    color: #087538;
+    background: transparent;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auth-message {
+    margin: 14px 0 0;
+    padding: 11px 12px;
+    border-radius: 9px;
+    color: #8c362e;
+    background: #fff0ef;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.auth-message[hidden],
+#code-step[hidden] {
+    display: none;
+}
+
+.privacy-note {
+    margin: 15px 3px 0;
+    color: #919b94;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.back-link {
+    align-self: flex-start;
+    color: #647169;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+@media (max-width: 420px) {
+    .sign-in-form {
+        padding: 18px 15px;
+    }
+}

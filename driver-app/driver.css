@@ -1,0 +1,474 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17231d;
+    background: #f5f8f5;
+    --green: #078c3d;
+    --line: #e6ece7;
+    --muted: #78827c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+.driver-header {
+    height: 70px;
+    padding: 0 max(5vw, calc((100vw - 1200px) / 2));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e8eee9;
+    background: #fff;
+}
+
+.driver-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #17231d;
+    font-size: 14px;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.driver-brand img {
+    width: 58px;
+}
+
+.driver-brand strong {
+    color: var(--green);
+}
+
+.driver-header nav {
+    display: flex;
+    gap: 22px;
+}
+
+.driver-header nav a,
+.driver-header nav button {
+    padding: 0;
+    border: 0;
+    color: #667169;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.driver-shell {
+    width: min(1120px, 90%);
+    margin: 0 auto;
+    padding: 48px 0 32px;
+}
+
+.driver-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.driver-eyebrow {
+    margin: 0 0 9px;
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.driver-welcome h1 {
+    margin: 0;
+    font-size: clamp(29px, 5vw, 42px);
+    letter-spacing: -1.2px;
+}
+
+.driver-welcome h1 span {
+    color: var(--green);
+}
+
+.welcome-copy {
+    margin: 9px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.location-status {
+    min-height: 15px;
+    margin: 7px 0 0;
+    color: #78827c;
+    font-size: 11px;
+}
+
+.location-status:empty {
+    display: none;
+}
+
+.online-toggle {
+    min-width: 155px;
+    min-height: 48px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    background: var(--green);
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(7, 140, 61, 0.18);
+}
+
+.online-toggle.is-online {
+    color: #086c34;
+    background: #e8f7ed;
+    box-shadow: inset 0 0 0 1px #bde7ca;
+}
+
+.online-light {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+}
+
+.is-online .online-light {
+    background: #0c9d4a;
+    box-shadow: 0 0 0 4px rgba(12, 157, 74, 0.13);
+}
+
+.driver-message {
+    margin: 20px 0 0;
+    padding: 12px 14px;
+    border: 1px solid #f1d8d6;
+    border-radius: 10px;
+    color: #a63a34;
+    background: #fff2f1;
+    font-size: 13px;
+}
+
+.driver-message[hidden] {
+    display: none;
+}
+
+.driver-stats {
+    margin: 32px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+}
+
+.driver-stats article {
+    min-height: 120px;
+    padding: 17px;
+    display: grid;
+    grid-template-columns: 39px 1fr;
+    align-content: center;
+    column-gap: 12px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 7px 20px rgba(20, 54, 34, 0.035);
+}
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.green-icon {
+    color: #078c3d;
+    background: #e8f7ed;
+}
+
+.blue-icon {
+    color: #3974c6;
+    background: #ebf2ff;
+}
+
+.amber-icon {
+    color: #b8790e;
+    background: #fff4dc;
+    font-size: 10px;
+}
+
+.stat-label {
+    align-self: end;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.driver-stats article strong {
+    align-self: start;
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+.driver-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 20px;
+}
+
+.ride-section {
+    min-height: 320px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: white;
+}
+
+.section-title {
+    margin-bottom: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+}
+
+.count-pill {
+    min-width: 26px;
+    height: 26px;
+    padding: 0 8px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    color: #087538;
+    background: #eaf8ee;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.ride-list {
+    display: grid;
+    gap: 11px;
+}
+
+.ride-card {
+    padding: 15px;
+    border: 1px solid #e8eee9;
+    border-radius: 13px;
+    background: #fff;
+}
+
+.ride-card-top,
+.ride-fare-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ride-card-top strong {
+    font-size: 13px;
+}
+
+.ride-time {
+    color: #87918a;
+    font-size: 10px;
+}
+
+.ride-route {
+    position: relative;
+    margin: 13px 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 11px;
+    color: #4a574e;
+    font-size: 12px;
+}
+
+.ride-route::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 4px;
+    border-left: 1px dashed #cbd6ce;
+}
+
+.ride-route span {
+    position: relative;
+}
+
+.ride-route span::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: -18px;
+    width: 8px;
+    height: 8px;
+    border: 2px solid #078c3d;
+    border-radius: 50%;
+    background: white;
+}
+
+.ride-route span:last-child::before {
+    border-color: #ef625a;
+    border-radius: 2px;
+}
+
+.ride-fare-line {
+    padding-top: 11px;
+    border-top: 1px solid #edf1ed;
+    color: #58655c;
+    font-size: 11px;
+}
+
+.ride-fare-line strong {
+    color: #17231d;
+    font-size: 13px;
+}
+
+.ride-action {
+    width: 100%;
+    min-height: 39px;
+    margin-top: 13px;
+    border: 0;
+    border-radius: 9px;
+    color: white;
+    background: var(--green);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.navigate-link,
+.contact-link {
+    width: 100%;
+    min-height: 36px;
+    margin-top: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    color: #2867a7;
+    background: #edf4ff;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.contact-link {
+    margin-top: 6px;
+    color: #087538;
+    background: #edf8f0;
+}
+
+.ride-action.secondary-action {
+    color: #087538;
+    background: #eaf8ee;
+}
+
+.empty-state {
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.empty-state[hidden] {
+    display: none;
+}
+
+.empty-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 11px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    color: #078c3d;
+    background: #edf8f0;
+    font-size: 23px;
+}
+
+.empty-state strong {
+    font-size: 13px;
+}
+
+.empty-state p {
+    max-width: 230px;
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+    .driver-shell {
+        width: min(600px, 92%);
+        padding-top: 32px;
+    }
+
+    .driver-welcome {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .online-toggle {
+        width: 100%;
+    }
+
+    .driver-stats {
+        gap: 8px;
+        margin: 22px 0;
+    }
+
+    .driver-stats article {
+        min-height: 108px;
+        padding: 11px;
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .stat-icon {
+        width: 32px;
+        height: 32px;
+        grid-row: auto;
+    }
+
+    .driver-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .ride-section {
+        min-height: 250px;
+        padding: 17px;
+    }
+
+    .driver-header {
+        padding: 0 4%;
+    }
+
+    .driver-header nav {
+        gap: 13px;
+    }
+}

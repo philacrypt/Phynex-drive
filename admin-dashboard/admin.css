@@ -1,0 +1,623 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17231d;
+    background: #f4f6f9;
+    --navy: #15233b;
+    --green: #078c3d;
+    --muted: #808b97;
+    --line: #e8edf1;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+}
+
+a {
+    font: inherit;
+}
+
+.admin-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1;
+    width: 228px;
+    padding: 22px 15px;
+    display: flex;
+    flex-direction: column;
+    color: #dce5f1;
+    background: #142138;
+}
+
+.admin-brand {
+    padding: 3px 4px 27px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+}
+
+.brand-shield {
+    width: 36px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    clip-path: polygon(50% 0, 96% 17%, 91% 70%, 50% 100%, 9% 70%, 4% 17%);
+    color: #fff;
+    background: #05a94c;
+    font-size: 18px;
+}
+
+.admin-brand strong {
+    color: #6ae18c;
+}
+
+.admin-brand small {
+    margin-top: 4px;
+    display: block;
+    color: #8594a8;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.admin-sidebar nav {
+    display: grid;
+    gap: 6px;
+}
+
+.admin-sidebar nav a {
+    min-height: 42px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border-radius: 9px;
+    color: #9eacc0;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-sidebar nav a span {
+    width: 18px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.admin-sidebar nav a.active-nav {
+    color: white;
+    background: #263b57;
+    box-shadow: inset 3px 0 #28c56a;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 17px 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.11);
+    color: #edf2f8;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.admin-avatar {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #bdebd0;
+    background: #28523f;
+}
+
+.sidebar-bottom small {
+    margin-top: 3px;
+    display: block;
+    color: #8594a8;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.admin-main {
+    width: calc(100% - 228px);
+    max-width: 1380px;
+    margin-left: 228px;
+    padding: 34px clamp(22px, 4vw, 55px) 25px;
+}
+
+.admin-header {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.admin-eyebrow {
+    margin: 0 0 7px;
+    color: #83909b;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.admin-header h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 29px;
+    letter-spacing: -0.7px;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.admin-header-actions > a,
+.admin-header-actions > button {
+    padding: 0;
+    border: 0;
+    color: #536274;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #358050;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.live-badge i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #20b25b;
+    box-shadow: 0 0 0 3px #def3e5;
+}
+
+.admin-error {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    border: 1px solid #f1d8d6;
+    border-radius: 9px;
+    color: #a63a34;
+    background: #fff2f1;
+    font-size: 12px;
+}
+
+.admin-error[hidden] {
+    display: none;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.metric-card {
+    position: relative;
+    min-height: 132px;
+    padding: 17px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: white;
+    box-shadow: 0 5px 16px rgba(30, 50, 67, 0.025);
+}
+
+.metric-label {
+    padding-right: 35px;
+    color: #657280;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.metric-icon {
+    position: absolute;
+    top: 13px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.green-metric {
+    color: #078c3d;
+    background: #e8f7ed;
+}
+
+.blue-metric {
+    color: #3974c6;
+    background: #ebf2ff;
+}
+
+.purple-metric {
+    color: #8251bb;
+    background: #f4edff;
+}
+
+.orange-metric {
+    color: #ca7715;
+    background: #fff3e4;
+    font-size: 8px;
+}
+
+.metric-card strong {
+    margin-top: 14px;
+    color: var(--navy);
+    font-size: clamp(22px, 3vw, 29px);
+    letter-spacing: -0.8px;
+}
+
+.metric-card small {
+    margin-top: 5px;
+    color: #929da7;
+    font-size: 9px;
+}
+
+.admin-panels {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+}
+
+.panel {
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 5px 16px rgba(30, 50, 67, 0.025);
+}
+
+.driver-panel,
+.status-panel {
+    min-height: 202px;
+    padding: 17px;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.panel-heading h2 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 16px;
+}
+
+.fleet-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    color: #078c3d;
+    background: #e8f7ed;
+}
+
+.driver-counts {
+    margin: 18px 0 12px;
+    display: flex;
+    gap: 40px;
+}
+
+.driver-counts div {
+    display: grid;
+    gap: 3px;
+}
+
+.driver-counts strong {
+    color: var(--navy);
+    font-size: 21px;
+}
+
+.driver-counts span {
+    color: #89949e;
+    font-size: 10px;
+}
+
+.fleet-progress {
+    height: 6px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #edf1f3;
+}
+
+.fleet-progress span {
+    width: 0;
+    height: 100%;
+    display: block;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #18b65a, #54d784);
+    transition: width 0.3s ease;
+}
+
+.fleet-note {
+    margin: 8px 0 0;
+    color: #929da7;
+    font-size: 9px;
+}
+
+.status-row {
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #63707d;
+    font-size: 10px;
+}
+
+.status-row:first-of-type {
+    margin-top: 12px;
+}
+
+.status-row strong {
+    color: var(--navy);
+    font-size: 11px;
+}
+
+.status-row > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.requested-dot {
+    background: #e8a923;
+}
+
+.active-dot {
+    background: #4589e5;
+}
+
+.complete-dot {
+    background: #20ae5a;
+}
+
+.cancelled-dot {
+    background: #e06a67;
+}
+
+.rides-panel {
+    margin-top: 15px;
+    padding: 17px 0 0;
+}
+
+.rides-heading {
+    padding: 0 17px 15px;
+}
+
+.refresh-time {
+    color: #97a1aa;
+    font-size: 9px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background: #f8fafb;
+}
+
+th,
+td {
+    padding: 11px 15px;
+    border-top: 1px solid #edf1f3;
+    color: #5c6976;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+th {
+    border-top: 0;
+    color: #88939e;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+td strong {
+    display: block;
+    color: #263448;
+    font-size: 10px;
+}
+
+td small {
+    margin-top: 3px;
+    display: block;
+    color: #9aa4ad;
+    font-size: 9px;
+}
+
+.table-empty {
+    padding: 30px 12px;
+    text-align: center;
+    color: #8b969f;
+}
+
+.ride-status-badge {
+    padding: 5px 8px;
+    display: inline-block;
+    border-radius: 20px;
+    color: #657280;
+    background: #f0f3f5;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.ride-status-badge.requested {
+    color: #94620a;
+    background: #fff5dc;
+}
+
+.ride-status-badge.active {
+    color: #285da7;
+    background: #eaf2ff;
+}
+
+.ride-status-badge.completed {
+    color: #14773a;
+    background: #e8f7ed;
+}
+
+.ride-status-badge.cancelled {
+    color: #a7423c;
+    background: #fff0ef;
+}
+
+@media (max-width: 950px) {
+    .admin-sidebar {
+        width: 190px;
+    }
+
+    .admin-main {
+        width: calc(100% - 190px);
+        margin-left: 190px;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 680px) {
+    .admin-sidebar {
+        position: static;
+        width: auto;
+        height: 58px;
+        padding: 0 15px;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .admin-brand {
+        padding: 0;
+    }
+
+    .admin-brand small,
+    .admin-sidebar nav,
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .brand-shield {
+        width: 31px;
+        height: 33px;
+    }
+
+    .admin-main {
+        width: 100%;
+        margin-left: 0;
+        padding: 23px 15px;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+    }
+
+    .admin-header h1 {
+        font-size: 25px;
+    }
+
+    .admin-header-actions {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        gap: 8px;
+    }
+
+    .metric-grid {
+        gap: 8px;
+    }
+
+    .metric-card {
+        min-height: 118px;
+        padding: 13px;
+    }
+
+    .metric-label {
+        font-size: 10px;
+    }
+
+    .metric-icon {
+        top: 10px;
+        right: 10px;
+        width: 26px;
+        height: 26px;
+    }
+
+    .metric-card strong {
+        margin-top: 13px;
+        font-size: 22px;
+    }
+
+    .admin-panels {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .driver-panel,
+    .status-panel {
+        min-height: 0;
+        padding: 14px;
+    }
+
+    .driver-counts {
+        margin-top: 13px;
+    }
+
+    .rides-heading {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    th,
+    td {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}

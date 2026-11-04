@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#078c3d">
+    <title>Sign in | PHYNEX RIDE</title>
+    <link rel="stylesheet" href="portal.css">
+</head>
+<body>
+    <main class="portal-shell">
+        <a class="portal-brand" href="index.html"><img src="images/phynex-mark.png" alt=""><span>PHYNEX <strong>RIDE</strong></span></a>
+        <section class="portal-content">
+            <p class="portal-eyebrow">SECURE PHONE SIGN-IN</p>
+            <h1>Your ride<br>starts here.</h1>
+            <p class="portal-intro">Verify your phone number to continue. Drivers and operations accounts are enabled by PHYNEX RIDE.</p>
+
+            <form class="sign-in-form" id="sign-in-form">
+                <div id="phone-step">
+                    <label class="auth-label" for="display-name">Full name</label>
+                    <input id="display-name" name="displayName" autocomplete="name" minlength="2" maxlength="80" placeholder="Your name" required>
+                    <label class="auth-label" for="phone-number">Mobile phone</label>
+                    <input id="phone-number" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+254 7XX XXX XXX" required>
+                    <p class="auth-hint">We’ll send a one-time verification code by SMS.</p>
+                    <div class="recaptcha" id="recaptcha-container"></div>
+                    <button class="auth-button" id="send-code" type="submit">Send verification code</button>
+                </div>
+                <div id="code-step" hidden>
+                    <label class="auth-label" for="verification-code">Verification code</label>
+                    <input id="verification-code" name="verificationCode" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="6-digit code" required>
+                    <p class="auth-hint" id="code-hint">Enter the code sent to your phone.</p>
+                    <button class="auth-button" id="verify-code" type="button">Verify and continue</button>
+                    <button class="resend-button" id="resend-code" type="button">Use a different phone number</button>
+                </div>
+                <p class="auth-message" id="auth-message" role="alert" hidden></p>
+            </form>
+
+            <p class="privacy-note">A verification SMS will be sent to your phone. Message and data rates may apply.</p>
+        </section>
+        <a class="back-link" href="index.html">← Back to welcome</a>
+    </main>
+    <script type="module" src="portal.js"></script>
+</body>
+</html>

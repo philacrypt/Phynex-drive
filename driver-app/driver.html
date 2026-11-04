@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#078c3d">
+    <title>Driver | PHYNEX RIDE</title>
+    <link rel="stylesheet" href="/driver-app/driver.css">
+</head>
+<body>
+    <header class="driver-header">
+        <a class="driver-brand" href="/"><img src="/images/phynex-mark.png" alt=""><span>PHYNEX <strong>RIDE</strong></span></a>
+        <nav aria-label="Portals"><a href="/">Customer</a><button type="button" id="sign-out">Sign out</button></nav>
+    </header>
+    <main class="driver-shell">
+        <section class="driver-welcome">
+            <div>
+                <p class="driver-eyebrow">DRIVER APP</p>
+                <h1>Good day, <span id="driver-name">Driver</span></h1>
+                <p class="welcome-copy">Go online to receive nearby ride requests.</p>
+                <p class="location-status" id="location-status" aria-live="polite"></p>
+            </div>
+            <button type="button" class="online-toggle" id="online-toggle" aria-pressed="false">
+                <span class="online-light"></span><span id="online-label">Go online</span>
+            </button>
+        </section>
+
+        <p class="driver-message" id="driver-message" role="alert" hidden></p>
+
+        <section class="driver-stats" aria-label="Driver summary">
+            <article><span class="stat-icon green-icon">↗</span><span class="stat-label">Availability</span><strong id="availability-stat">Offline</strong></article>
+            <article><span class="stat-icon blue-icon">◷</span><span class="stat-label">Active rides</span><strong id="active-count">0</strong></article>
+            <article><span class="stat-icon amber-icon">KSh</span><span class="stat-label">Completed fares</span><strong id="earnings-stat">0</strong></article>
+        </section>
+
+        <div class="driver-columns">
+            <section class="ride-section">
+                <div class="section-title"><div><p class="driver-eyebrow">NEW OPPORTUNITIES</p><h2>Ride requests</h2></div><span class="count-pill" id="request-count">0</span></div>
+                <div class="ride-list" id="request-list"></div>
+                <div class="empty-state" id="request-empty"><span class="empty-icon">⌁</span><strong>No requests right now</strong><p>New ride requests will appear here when you're online.</p></div>
+            </section>
+            <section class="ride-section active-section">
+                <div class="section-title"><div><p class="driver-eyebrow">YOUR CURRENT TRIPS</p><h2>Active rides</h2></div><span class="count-pill" id="active-pill">0</span></div>
+                <div class="ride-list" id="active-list"></div>
+                <div class="empty-state" id="active-empty"><span class="empty-icon">✓</span><strong>All caught up</strong><p>Accepted rides will show here with their next step.</p></div>
+            </section>
+        </div>
+    </main>
+    <script type="module" src="/driver-app/driver.js"></script>
+</body>
+</html>
