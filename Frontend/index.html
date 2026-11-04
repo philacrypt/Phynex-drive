@@ -2,69 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#078c3d">
-    <title>PHYNEX RIDE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#07111b">
+    <meta name="description" content="PHYNEX RIDE — fast, safe and reliable rides whenever you need.">
+    <title>PHYNEX RIDE | Your Journey, Our Priority</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <header class="landing-header">
-        <a class="landing-brand" href="index.html" aria-label="PHYNEX RIDE home">
-            <img src="images/phynex-mark.png" alt="PHYNEX RIDE logo">
-            <span>PHYNEX <strong>RIDE</strong></span>
+    <main class="home-screen" aria-label="PHYNEX RIDE welcome page">
+        <img
+            class="home-artwork"
+            src="images/phynex-home-reference.jpg"
+            alt="PHYNEX RIDE welcome scene with city skyline, branded car and Get Started button"
+        >
+
+        <!-- Transparent, accessible click target placed directly over the Get Started button in the reference artwork. -->
+        <a class="get-started-hitbox" href="customer.html" aria-label="Get started and book a ride">
+            <span class="sr-only">Get Started</span>
         </a>
-        <nav class="landing-nav" aria-label="Main navigation">
-            <a class="nav-link active" href="index.html">Home</a>
-            <a class="nav-link" href="customer.html">Ride</a>
-            <a class="nav-link" href="business.html">Business</a>
-            <a class="nav-link" href="/driver">Drive</a>
-        </nav>
-        <a class="landing-signin" href="portal.html">Sign in</a>
-    </header>
-
-    <main class="welcome-screen">
-        <div class="scene-layer" aria-hidden="true"></div>
-
-        <section class="brand" aria-label="PHYNEX RIDE">
-            <div class="brand-mark-frame">
-                <img class="brand-mark" src="images/phynex-mark.png" alt="PHYNEX RIDE logo">
-            </div>
-            <div class="brand-stack" aria-hidden="true">
-                <h1 class="brand-word brand-primary">PHYNEX</h1>
-                <h1 class="brand-word brand-secondary">RIDE</h1>
-            </div>
-        </section>
-
-        <section class="welcome-actions">
-            <a href="customer.html" class="get-started">Get Started</a>
-            <a href="portal.html" class="sign-in">Sign In</a>
-        </section>
-
-        <nav class="bottom-dock" aria-label="Bottom navigation">
-            <a href="index.html" class="active">Home</a>
-            <a href="customer.html">Ride</a>
-            <a href="business.html">Business</a>
-            <a href="/driver">Drive</a>
-            <a href="portal.html">Account</a>
-        </nav>
     </main>
-
-    <script>
-        const navLinks = document.querySelectorAll('.nav-link');
-        const currentPath = window.location.pathname.split('/').filter(Boolean).pop() || 'index.html';
-
-        navLinks.forEach((link) => {
-            const linkPath = (link.getAttribute('href') || '').split('/').filter(Boolean).pop() || 'index.html';
-            const isActive = currentPath === linkPath || (currentPath === '' && linkPath === 'index.html');
-            link.classList.toggle('active', isActive);
-            if (isActive) {
-                link.setAttribute('aria-current', 'page');
-            }
-        });
-    </script>
 </body>
 </html>
