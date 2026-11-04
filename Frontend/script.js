@@ -48,6 +48,7 @@ const rideMessages = {
     completed: 'Your trip is complete. We hope you had a great ride.',
     cancelled: 'You can request another ride whenever you are ready.'
 };
+const defaultMapCenter = { lat: -3.6333, lng: 39.85 };
 
 let profile;
 let mapConfig;
@@ -56,7 +57,8 @@ let trackingMap;
 let bookingLeafletMap;
 let trackingLeafletMap;
 let bookingDirections;
-let trackingDirections;
+let bookingDirectionsService;
+let trackingDirectionsService;
 let pickupAutocomplete;
 let destinationAutocomplete;
 let pickupMarker;
@@ -69,6 +71,12 @@ let leafletTrackingDestinationMarker;
 let leafletTrackingDriverMarker;
 let bookingLeafletRoute;
 let trackingLeafletRoute;
+let trackingLeafletCompletedRoute;
+let trackingLeafletArrows;
+let trackingGoogleCompletedRoute;
+let trackingGoogleRemainingRoute;
+let trackingRouteCoordinates = [];
+let trackingProgressIndex = 0;
 let activeRideId = '';
 let refreshTimer;
 let rideClockTimer;
@@ -327,7 +335,13 @@ function getCurrentPosition() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             }),
-            () => reject(new Error('Location permission was denied or unavailable. You can still search for a pickup or tap the map.')),
+            (error) => reject(new Error(
+                error.code === error.PERMISSION_DENIED
+                    ? 'Location access is blocked. Allow location in your phone or browser settings, then tap Use my current location again.'
+                    : error.code === error.POSITION_UNAVAILABLE
+                        ? 'Your current location is unavailable. Check that location services are enabled, or search for a pickup.'
+                        : 'Getting your location timed out. Please try again or search for a pickup.'
+            )),
             { enableHighAccuracy: true, maximumAge: 15_000, timeout: 15_000 }
         );
     });
@@ -364,7 +378,7 @@ async function searchLocation(prefix) {
     locationResults.hidden = true;
     try {
         const results = await queryOpenStreetMap(
-            `search?format=jsonv2&addressdetails=1&limit=5&countrycodes=ke&q=${encodeURIComponent(query)}`
+            `search?format=jsonv2&addressdetails=1&limit=5&q=${encodeURIComponent(query)}`
         );
         if (!results.length) {
             showLocationMessage('No places found. Try a nearby landmark or a more specific address.');
@@ -422,18 +436,16 @@ async function setLocationFromPoint(prefix, point) {
     }
 }
 
-async function useCurrentLocation(showFailure = true) {
+async function useCurrentLocation() {
     currentLocationButton.disabled = true;
     currentLocationButton.textContent = 'Getting your location…';
-    locationMessage.hidden = true;
+    showLocationMessage('Allow location access in the phone prompt to use your current position as pickup.');
     try {
         const point = await getCurrentPosition();
         await setLocationFromPoint('pickup', point);
         showLocationMessage('Pickup set to your current location.');
     } catch (error) {
-        if (showFailure) {
-            showLocationMessage(error.message);
-        }
+        showLocationMessage(error.message);
     } finally {
         currentLocationButton.disabled = false;
         currentLocationButton.textContent = 'Use my current location';
@@ -518,7 +530,7 @@ function updateBookingMap() {
 
     if (pickup && destination) {
         bookingMap.fitBounds(bounds, 50);
-        bookingDirections.route({
+        bookingDirectionsService.route({
             origin: pickup,
             destination,
             travelMode: google.maps.TravelMode.DRIVING
@@ -542,24 +554,27 @@ function updateBookingMap() {
 
 function initializeBookingMap() {
     bookingMap = new google.maps.Map(document.querySelector('#booking-map'), {
-        center: { lat: -1.286389, lng: 36.817223 },
-        zoom: 12,
+        center: defaultMapCenter,
+        zoom: 9,
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: true
     });
     pickupMarker = new google.maps.Marker({ map: bookingMap, label: 'P', visible: false });
     destinationMarker = new google.maps.Marker({ map: bookingMap, label: 'D', visible: false });
-    bookingDirections = new google.maps.DirectionsRenderer({ map: bookingMap, suppressMarkers: true });
+    bookingDirectionsService = new google.maps.DirectionsService();
+    bookingDirections = new google.maps.DirectionsRenderer({
+        map: bookingMap,
+        suppressMarkers: true,
+        polylineOptions: { strokeColor: '#078c3d', strokeWeight: 5, strokeOpacity: 0.9 }
+    });
 
     const pickupInput = document.querySelector('#pickup');
     const destinationInput = document.querySelector('#destination');
     pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
-        componentRestrictions: { country: 'ke' },
         fields: ['formatted_address', 'geometry', 'name']
     });
     destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput, {
-        componentRestrictions: { country: 'ke' },
         fields: ['formatted_address', 'geometry', 'name']
     });
     pickupAutocomplete.addListener('place_changed', () => setLocation('pickup', pickupAutocomplete.getPlace(), pickupInput));
@@ -613,8 +628,8 @@ async function getRoadRoute(pickup, destination) {
 
 async function initializeOpenStreetMap() {
     await loadLeaflet();
-    const center = [-1.286389, 36.817223];
-    bookingLeafletMap = L.map(document.querySelector('#booking-map')).setView(center, 12);
+    const center = [defaultMapCenter.lat, defaultMapCenter.lng];
+    bookingLeafletMap = L.map(document.querySelector('#booking-map')).setView(center, 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>'
@@ -627,7 +642,7 @@ async function initializeOpenStreetMap() {
     trackingLeafletMap = L.map(document.querySelector('#tracking-map'), {
         zoomControl: false,
         attributionControl: false
-    }).setView(center, 12);
+    }).setView(center, 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; OpenStreetMap contributors'
@@ -636,6 +651,142 @@ async function initializeOpenStreetMap() {
     document.querySelector('#tracking-map-notice').hidden = true;
     mapAttribution.textContent = 'Map data © OpenStreetMap contributors.';
     updateBookingMap();
+}
+
+function hasRecentDriverLocation(ride) {
+    return ride.driverLat !== null
+        && ride.driverLat !== undefined
+        && ride.driverLng !== null
+        && ride.driverLng !== undefined
+        && ride.driverLocationAt
+        && Date.now() - new Date(ride.driverLocationAt).getTime() < 120_000;
+}
+
+function updateTrackingProgress(ride) {
+    if (!trackingRouteCoordinates.length) return;
+    if (ride.status === 'completed') {
+        trackingProgressIndex = trackingRouteCoordinates.length - 1;
+        return;
+    }
+    if (ride.status !== 'in_progress' || !hasRecentDriverLocation(ride)) return;
+
+    const latitude = Number(ride.driverLat);
+    const longitude = Number(ride.driverLng);
+    let nearestIndex = trackingProgressIndex;
+    let nearestDistance = Infinity;
+    for (let index = trackingProgressIndex; index < trackingRouteCoordinates.length; index += 1) {
+        const [routeLatitude, routeLongitude] = trackingRouteCoordinates[index];
+        const latitudeDifference = routeLatitude - latitude;
+        const longitudeDifference = (routeLongitude - longitude) * Math.cos(latitude * Math.PI / 180);
+        const distance = latitudeDifference ** 2 + longitudeDifference ** 2;
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+        }
+    }
+    trackingProgressIndex = nearestIndex;
+}
+
+function updateLeafletTrackingRoute(ride) {
+    if (!trackingRouteCoordinates.length) return;
+    updateTrackingProgress(ride);
+    const completedPath = trackingRouteCoordinates.slice(0, trackingProgressIndex + 1);
+    const remainingPath = trackingRouteCoordinates.slice(trackingProgressIndex);
+    if (completedPath.length > 1) {
+        if (trackingLeafletCompletedRoute) trackingLeafletCompletedRoute.setLatLngs(completedPath);
+        else trackingLeafletCompletedRoute = L.polyline(completedPath, {
+            color: '#87958c',
+            weight: 4,
+            opacity: 0.65
+        }).addTo(trackingLeafletMap);
+    } else if (trackingLeafletCompletedRoute) {
+        trackingLeafletMap.removeLayer(trackingLeafletCompletedRoute);
+        trackingLeafletCompletedRoute = undefined;
+    }
+    if (remainingPath.length > 1) {
+        if (trackingLeafletRoute) trackingLeafletRoute.setLatLngs(remainingPath);
+        else trackingLeafletRoute = L.polyline(remainingPath, {
+            color: '#078c3d',
+            weight: 5,
+            opacity: 0.9
+        }).addTo(trackingLeafletMap);
+    } else if (trackingLeafletRoute) {
+        trackingLeafletMap.removeLayer(trackingLeafletRoute);
+        trackingLeafletRoute = undefined;
+    }
+
+    if (!trackingLeafletArrows) trackingLeafletArrows = L.layerGroup().addTo(trackingLeafletMap);
+    trackingLeafletArrows.clearLayers();
+    if (ride.status !== 'in_progress') return;
+    const stride = Math.max(1, Math.ceil(remainingPath.length / 30));
+    for (let index = stride; index < remainingPath.length; index += stride) {
+        const point = remainingPath[index - 1];
+        const nextPoint = remainingPath[index];
+        const angle = Math.atan2(
+            point[0] - nextPoint[0],
+            (nextPoint[1] - point[1]) * Math.cos(point[0] * Math.PI / 180)
+        ) * 180 / Math.PI;
+        const icon = L.divIcon({
+            className: '',
+            html: `<span class="route-direction-arrow" style="transform:rotate(${angle}deg)">➤</span>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+        L.marker(point, { icon, interactive: false }).addTo(trackingLeafletArrows);
+    }
+}
+
+function updateGoogleTrackingRoute(ride) {
+    if (!trackingRouteCoordinates.length) return;
+    updateTrackingProgress(ride);
+    const completedPath = trackingRouteCoordinates.slice(0, trackingProgressIndex + 1)
+        .map(([lat, lng]) => ({ lat, lng }));
+    const remainingPath = trackingRouteCoordinates.slice(trackingProgressIndex)
+        .map(([lat, lng]) => ({ lat, lng }));
+    if (completedPath.length > 1) {
+        if (!trackingGoogleCompletedRoute) {
+            trackingGoogleCompletedRoute = new google.maps.Polyline({
+                map: trackingMap,
+                strokeColor: '#87958c',
+                strokeOpacity: 0.65,
+                strokeWeight: 4,
+                zIndex: 1
+            });
+        }
+        trackingGoogleCompletedRoute.setPath(completedPath);
+    } else if (trackingGoogleCompletedRoute) {
+        trackingGoogleCompletedRoute.setMap(null);
+        trackingGoogleCompletedRoute = undefined;
+    }
+    if (remainingPath.length > 1) {
+        if (!trackingGoogleRemainingRoute) {
+            trackingGoogleRemainingRoute = new google.maps.Polyline({
+                map: trackingMap,
+                strokeColor: '#078c3d',
+                strokeOpacity: 0.9,
+                strokeWeight: 5,
+                zIndex: 2
+            });
+        }
+        trackingGoogleRemainingRoute.setPath(remainingPath);
+        trackingGoogleRemainingRoute.setOptions({
+            icons: ride.status === 'in_progress' ? [{
+                icon: {
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                    fillColor: '#078c3d',
+                    fillOpacity: 1,
+                    strokeColor: '#078c3d',
+                    strokeWeight: 1,
+                    scale: 3
+                },
+                offset: '50px',
+                repeat: '110px'
+            }] : []
+        });
+    } else if (trackingGoogleRemainingRoute) {
+        trackingGoogleRemainingRoute.setMap(null);
+        trackingGoogleRemainingRoute = undefined;
+    }
 }
 
 function updateTrackingMap(ride) {
@@ -653,43 +804,43 @@ function updateTrackingMap(ride) {
         if (trackedRouteRideId !== ride.id) {
             trackingRouteRequest += 1;
             trackedRouteRideId = ride.id;
-            for (const marker of [
+            trackingProgressIndex = 0;
+            trackingRouteCoordinates = [];
+            for (const layer of [
                 leafletTrackingPickupMarker,
                 leafletTrackingDestinationMarker,
-                leafletTrackingDriverMarker
+                leafletTrackingDriverMarker,
+                trackingLeafletRoute,
+                trackingLeafletCompletedRoute,
+                trackingLeafletArrows
             ]) {
-                if (marker) trackingLeafletMap.removeLayer(marker);
+                if (layer) trackingLeafletMap.removeLayer(layer);
             }
-            if (trackingLeafletRoute) trackingLeafletMap.removeLayer(trackingLeafletRoute);
             leafletTrackingDriverMarker = undefined;
             leafletTrackingPickupMarker = makeMarker(pickup, 'P', 'pickup-marker');
             leafletTrackingDestinationMarker = makeMarker(destination, 'D', 'destination-marker');
+            trackingLeafletRoute = undefined;
+            trackingLeafletCompletedRoute = undefined;
+            trackingLeafletArrows = undefined;
             trackingLeafletMap.fitBounds([pickup, destination], { padding: [25, 25], maxZoom: 15 });
             const requestId = ++trackingRouteRequest;
             document.querySelector('#tracking-map-notice').textContent = 'Drawing the road route…';
             document.querySelector('#tracking-map-notice').hidden = false;
             getRoadRoute(pickup, destination).then((coordinates) => {
                 if (requestId !== trackingRouteRequest) return;
-                trackingLeafletRoute = L.polyline(coordinates, {
-                    color: '#078c3d',
-                    weight: 5,
-                    opacity: 0.88
-                }).addTo(trackingLeafletMap);
-                trackingLeafletMap.fitBounds(trackingLeafletRoute.getBounds(), { padding: [25, 25], maxZoom: 15 });
+                trackingRouteCoordinates = coordinates;
+                updateLeafletTrackingRoute(ride);
+                trackingLeafletMap.fitBounds(L.polyline(coordinates).getBounds(), { padding: [25, 25], maxZoom: 15 });
                 document.querySelector('#tracking-map-notice').hidden = true;
             }).catch((error) => {
                 if (requestId !== trackingRouteRequest) return;
                 document.querySelector('#tracking-map-notice').textContent = error.message;
                 document.querySelector('#tracking-map-notice').hidden = false;
             });
+        } else {
+            updateLeafletTrackingRoute(ride);
         }
-        const hasRecentLocation = ride.driverLat !== null
-            && ride.driverLat !== undefined
-            && ride.driverLng !== null
-            && ride.driverLng !== undefined
-            && ride.driverLocationAt
-            && Date.now() - new Date(ride.driverLocationAt).getTime() < 120_000;
-        if (hasRecentLocation) {
+        if (hasRecentDriverLocation(ride)) {
             const location = [ride.driverLat, ride.driverLng];
             if (leafletTrackingDriverMarker) leafletTrackingDriverMarker.setLatLng(location);
             else leafletTrackingDriverMarker = makeMarker(location, 'D', 'driver-marker');
@@ -701,29 +852,38 @@ function updateTrackingMap(ride) {
     }
     if (!trackingMap || !window.google?.maps) return;
     if (trackedRouteRideId !== ride.id) {
+        trackingRouteRequest += 1;
         trackedRouteRideId = ride.id;
+        trackingProgressIndex = 0;
+        trackingRouteCoordinates = [];
+        if (trackingGoogleCompletedRoute) trackingGoogleCompletedRoute.setMap(null);
+        if (trackingGoogleRemainingRoute) trackingGoogleRemainingRoute.setMap(null);
+        trackingGoogleCompletedRoute = undefined;
+        trackingGoogleRemainingRoute = undefined;
         const requestId = ++trackingRouteRequest;
-        trackingDirections.route({
+        trackingDirectionsService.route({
             origin: pickup,
             destination,
             travelMode: google.maps.TravelMode.DRIVING
         }).then((result) => {
-            if (requestId === trackingRouteRequest) trackingDirections.setDirections(result);
-        }).catch(() => {
+            if (requestId !== trackingRouteRequest) return;
+            const path = result.routes?.[0]?.overview_path;
+            if (!path?.length) throw new Error('No road route was found between those locations.');
+            trackingRouteCoordinates = path.map((point) => [point.lat(), point.lng()]);
+            updateGoogleTrackingRoute(ride);
+            trackingMap.fitBounds(result.routes[0].bounds);
+            document.querySelector('#tracking-map-notice').hidden = true;
+        }).catch((error) => {
             if (requestId !== trackingRouteRequest) return;
             const notice = document.querySelector('#tracking-map-notice');
-            notice.textContent = 'Route directions are temporarily unavailable.';
+            notice.textContent = error.message || 'Route directions are temporarily unavailable.';
             notice.hidden = false;
         });
+    } else {
+        updateGoogleTrackingRoute(ride);
     }
 
-    const hasRecentLocation = ride.driverLat !== null
-        && ride.driverLat !== undefined
-        && ride.driverLng !== null
-        && ride.driverLng !== undefined
-        && ride.driverLocationAt
-        && Date.now() - new Date(ride.driverLocationAt).getTime() < 120_000;
-    if (hasRecentLocation) {
+    if (hasRecentDriverLocation(ride)) {
         const location = { lat: ride.driverLat, lng: ride.driverLng };
         if (!driverMarker) {
             driverMarker = new google.maps.Marker({
@@ -886,16 +1046,13 @@ async function initialize() {
                 await loadGoogleMaps(config.mapsBrowserApiKey);
                 initializeBookingMap();
                 trackingMap = new google.maps.Map(document.querySelector('#tracking-map'), {
-                    center: { lat: -1.286389, lng: 36.817223 },
-                    zoom: 12,
+                    center: defaultMapCenter,
+                    zoom: 9,
                     mapTypeControl: false,
                     streetViewControl: false,
                     fullscreenControl: false
                 });
-                trackingDirections = new google.maps.DirectionsRenderer({
-                    map: trackingMap,
-                    suppressMarkers: true
-                });
+                trackingDirectionsService = new google.maps.DirectionsService();
                 document.querySelector('#booking-map-notice').hidden = true;
                 document.querySelector('#tracking-map-notice').hidden = true;
             } catch (error) {
@@ -931,7 +1088,6 @@ async function initialize() {
             showMessage(serviceMessage, 'Server-side route pricing is not configured. Location search and map selection are available, but booking is temporarily unavailable.');
         } else {
             serviceReady = true;
-            await useCurrentLocation(false);
         }
         updateBookButton();
 

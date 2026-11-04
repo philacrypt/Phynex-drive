@@ -4,7 +4,7 @@ const caption = document.querySelector('#slide-caption');
 const dots = Array.from(document.querySelectorAll('.slide-dot'));
 const captions = [
     'Reliable rides, right when you need them.',
-    'Choose a car or bike for your Nairobi trip.',
+    'Choose a car or bike for your next trip.',
     'Know your route and fare before you ride.'
 ];
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');

@@ -93,7 +93,7 @@ app.get('/api/config', (req, res) => {
     const firebaseReady = Object.values(firebaseWebConfig).every(Boolean)
         && Boolean(serviceAccountPath && fs.existsSync(serviceAccountPath));
     res.json({
-        market: 'Nairobi, Kenya',
+        market: 'Kilifi County, Kenya',
         currency: 'KES',
         databaseReady,
         firebaseReady,

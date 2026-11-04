@@ -338,6 +338,15 @@ body {
     line-height: 1.4;
 }
 
+.route-direction-arrow {
+    display: block;
+    color: #078c3d;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 20px;
+    text-shadow: -1px -1px #fff, 1px -1px #fff, -1px 1px #fff, 1px 1px #fff;
+}
+
 .location-message[hidden] {
     display: none;
 }
