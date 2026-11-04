@@ -1,6 +1,6 @@
-# PHYNEX RIDE
+# Phil-Ride
 
-PHYNEX RIDE is a Nairobi ride-booking service with separate customer, driver, and operations portals. It uses Firebase phone authentication, Google Maps, PostgreSQL, and optional M-Pesa STK Push payments.
+Phil-Ride is a Nairobi ride-booking service with separate customer, driver, and operations portals. It uses Firebase phone authentication, Google Maps, PostgreSQL, and optional M-Pesa STK Push payments.
 
 ## Requirements
 
@@ -30,7 +30,7 @@ The server listens on the configured `HOST` and `PORT`. The welcome page is `/`,
 
 ## Deploy to Render
 
-The root `render.yaml` defines a Node web service that serves the mobile-friendly welcome and booking pages over HTTPS. To create it, open the [Render Blueprint setup](https://render.com/deploy?repo=https://github.com/philacrypt/Phynex-drive) and create the `phynex-ride` service from the `main` branch. Render assigns the public `onrender.com` URL after the first deploy; use that URL on your phone.
+The root `render.yaml` defines a Node web service that serves the mobile-friendly welcome and booking pages over HTTPS. To create it, open the [Render Blueprint setup](https://render.com/deploy?repo=https://github.com/philacrypt/Phynex-drive) and create the `phil-ride` service from the `main` branch. Render assigns the public `onrender.com` URL after the first deploy; use that URL on your phone.
 
 The pages can load before the backend providers are configured, but ride booking requires production PostgreSQL (`DATABASE_URL`), Firebase web configuration and service-account secret file (`/etc/secrets/firebase-service-account.json`), and the Google Maps server key. Configure these in the Render service's Environment and Secret Files settings, then redeploy. Add the final Render hostname to Firebase's authorized domains and to the Google Maps browser-key website restrictions. Do not put provider credentials in this repository.
 
@@ -38,7 +38,7 @@ The pages can load before the backend providers are configured, but ride booking
 
 On startup, the service applies `database/schema.sql` to the configured PostgreSQL database. The schema updates earlier vehicle categories to cars; historical fares and rides are retained. The server still serves the welcome and portal pages when PostgreSQL is unavailable, but API actions return an explicit service-not-ready error. The health endpoint reports the database state.
 
-The customer can use their GPS position as pickup, choose another pickup or destination from Google Maps, or select a point directly on the map. The map displays the road route, and the fare estimate includes expected driving time. When available, customers can select a nearby online driver or let PHYNEX match them automatically; driver availability is rechecked during assignment. The trip screen counts elapsed time after the driver starts the trip. Route distance and fare are calculated server-side with Google Routes; the browser cannot set the booking price. If the Google Maps browser key is unavailable, the map uses OpenStreetMap and the public OSRM demo router for road geometry; use a hosted routing provider for production traffic. Starting rates are KSh 50 per billable kilometre for a car (KSh 250 minimum) and KSh 30 per billable kilometre for a bike (KSh 150 minimum). Billing rounds route distance up to the next kilometre. Configure rates with `CAR_FARE_PER_KM_KSH`, `CAR_MINIMUM_FARE_KSH`, `BIKE_FARE_PER_KM_KSH`, and `BIKE_MINIMUM_FARE_KSH`; review and approve them before public launch.
+The customer can use their GPS position as pickup, choose another pickup or destination from Google Maps, or select a point directly on the map. The map displays the road route, and the fare estimate includes expected driving time. When available, customers can select a nearby online driver or let Phil-Ride match them automatically; driver availability is rechecked during assignment. The trip screen counts elapsed time after the driver starts the trip. Route distance and fare are calculated server-side with Google Routes; the browser cannot set the booking price. If the Google Maps browser key is unavailable, the map uses OpenStreetMap and the public OSRM demo router for road geometry; use a hosted routing provider for production traffic. Starting rates are KSh 50 per billable kilometre for a car (KSh 250 minimum) and KSh 30 per billable kilometre for a bike (KSh 150 minimum). Billing rounds route distance up to the next kilometre. Configure rates with `CAR_FARE_PER_KM_KSH`, `CAR_MINIMUM_FARE_KSH`, `BIKE_FARE_PER_KM_KSH`, and `BIKE_MINIMUM_FARE_KSH`; review and approve them before public launch.
 
 ## Before public launch
 

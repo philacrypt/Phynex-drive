@@ -102,7 +102,7 @@ async function startStkPush({ phone, amountKsh, rideId }) {
             PartyB: shortCode,
             PhoneNumber: normalizeKenyanPhone(phone),
             CallBackURL: process.env.MPESA_CALLBACK_URL,
-            AccountReference: (process.env.MPESA_ACCOUNT_REFERENCE || 'PHYNEX RIDE').slice(0, 12),
+            AccountReference: (process.env.MPESA_ACCOUNT_REFERENCE || 'PHIL-RIDE').slice(0, 12),
             TransactionDesc: `Ride ${rideId.slice(0, 8)}`
         }),
         signal: AbortSignal.timeout(15_000)

@@ -101,7 +101,7 @@ async function loadDashboard() {
             requestJson('/api/driver/rides'),
             requestJson('/api/driver/summary')
         ]);
-        if (!driver) throw new Error('Your driver account is not activated. Contact PHYNEX RIDE operations.');
+        if (!driver) throw new Error('Your driver account is not activated. Contact Phil-Ride operations.');
         online = Boolean(driver.online);
         driverName.textContent = driver.displayName || 'Driver';
         toggleButton.classList.toggle('is-online', online);

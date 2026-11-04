@@ -37,6 +37,6 @@ test('Google Routes fails explicitly when the server key is missing', async (t) 
     const routes = require('./google-routes');
     await assert.rejects(
         routes.getDrivingRoute({ latitude: 0, longitude: 0 }, { latitude: 1, longitude: 1 }),
-        { status: 503, message: 'Distance pricing is not configured. Contact PHYNEX RIDE support.' }
+        { status: 503, message: 'Distance pricing is not configured. Contact Phil-Ride support.' }
     );
 });

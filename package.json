@@ -1,8 +1,8 @@
 {
-  "name": "phynex-ride",
+  "name": "phil-ride",
   "version": "1.0.0",
   "private": true,
-  "description": "PHYNEX RIDE customer, driver, and operations applications",
+  "description": "Phil-Ride customer, driver, and operations applications",
   "scripts": {
     "start": "node backend/server.js",
     "test": "node --test backend/**/*.test.js"

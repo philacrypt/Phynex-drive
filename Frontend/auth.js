@@ -47,7 +47,7 @@ function normalizePhone(phone) {
 
 export async function sendPhoneCode(phone, recaptchaElement) {
     const { available } = await authReady;
-    if (!available) throw new Error('Phone sign-in is not configured. Contact PHYNEX RIDE support.');
+    if (!available) throw new Error('Phone sign-in is not configured. Contact Phil-Ride support.');
     if (recaptchaVerifier) {
         recaptchaVerifier.clear();
         recaptchaVerifier = null;
