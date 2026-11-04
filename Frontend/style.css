@@ -7,203 +7,165 @@ body {
     width: 100%;
     min-height: 100%;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Manrope", "Lexend", Arial, sans-serif;
 }
 
 body {
     min-height: 100vh;
-    background: #056b31;
+    background: #0ca64a;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+a {
+    font: inherit;
 }
 
 .welcome-screen {
+    position: relative;
     width: 100%;
     min-height: 100vh;
     min-height: 100svh;
-    margin: 0;
-    position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: max(32px, env(safe-area-inset-top)) 24px max(28px, env(safe-area-inset-bottom));
-    background: linear-gradient(145deg, #0ba84a 0%, #078c3d 45%, #05672e 100%);
-    isolation: isolate;
+    padding: 52px 24px 30px;
+    background: linear-gradient(180deg, #0bb755 0%, #0aa344 100%);
 }
 
-.welcome-glow {
+.scene-layer {
     position: absolute;
-    z-index: -1;
-    width: min(78vw, 430px);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: rgba(99, 255, 163, 0.1);
-    filter: blur(2px);
+    inset: 0;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.04);
 }
 
-.welcome-glow-top {
-    top: -25vw;
-    right: -24vw;
-}
-
-.welcome-glow-bottom {
-    bottom: -34vw;
-    left: -28vw;
-    width: min(94vw, 500px);
-    background: rgba(0, 47, 21, 0.12);
+.brand,
+.welcome-actions {
+    position: relative;
+    z-index: 1;
 }
 
 .brand {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    margin: auto 0;
     text-align: center;
-    animation: brand-arrive 650ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    margin-bottom: 32px;
+    animation: brand-arrive 650ms ease-out both;
 }
 
 .brand-mark-frame {
-    width: clamp(116px, 35vw, 150px);
-    aspect-ratio: 1;
-    margin: 0 auto 25px;
+    width: clamp(68px, 12vw, 120px);
+    height: clamp(68px, 12vw, 120px);
+    margin: 0 auto 18px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    border-radius: 34%;
-    background: #fff;
-    box-shadow: 0 16px 38px rgba(0, 49, 21, 0.2);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .brand-mark {
-    display: block;
-    width: 82%;
+    width: 58%;
     height: auto;
 }
 
-.brand h1 {
+.brand-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 0.8;
+}
+
+.brand-word {
     margin: 0;
     color: #fff;
-    font-size: clamp(36px, 11vw, 48px);
     font-weight: 900;
-    line-height: 1;
-    letter-spacing: -1.5px;
+    letter-spacing: -0.08em;
+    text-transform: uppercase;
+    font-family: "Space Grotesk", "Lexend", sans-serif;
 }
 
-.brand h1 span {
-    color: #c5ffd9;
+.brand-primary {
+    font-size: clamp(3.1rem, 9vw, 8rem);
+    line-height: 0.82;
 }
 
-.brand p {
-    margin: 14px 0 0;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 14px;
-    letter-spacing: 0.4px;
+.brand-secondary {
+    font-size: clamp(2.9rem, 8vw, 7rem);
+    color: #d9ffe8;
+    line-height: 0.82;
 }
 
 .welcome-actions {
-    position: relative;
-    z-index: 2;
-    width: min(100%, 430px);
-    margin-top: auto;
-    text-align: center;
-}
-
-.welcome-prompt {
-    margin: 0 0 16px;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
+    width: min(100%, 440px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
 .get-started,
 .sign-in {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
     width: 100%;
-    min-height: 54px;
-    padding: 17px 20px;
-    border-radius: 16px;
-    text-align: center;
+    border-radius: 18px;
     text-decoration: none;
-    font-size: 15px;
-    font-weight: 700;
-    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    font-family: "Lexend", "Manrope", sans-serif;
 }
 
 .get-started {
-    color: #087c37;
     background: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 20px rgba(0, 49, 21, 0.18);
-}
-
-.get-started:hover {
-    background: #eafff1;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0, 49, 21, 0.23);
+    color: #0b8d3d;
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+    box-shadow: 0 14px 22px rgba(0, 0, 0, 0.12);
 }
 
 .sign-in {
-    margin-top: 10px;
-    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
-    background: rgba(0, 67, 29, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.68);
+    font-size: clamp(1.15rem, 2vw, 1.7rem);
 }
 
+.get-started:hover,
 .sign-in:hover {
-    background: rgba(0, 67, 29, 0.3);
-}
-
-.get-started:focus-visible,
-.sign-in:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 3px;
+    transform: translateY(-1px);
 }
 
 @keyframes brand-arrive {
     from {
         opacity: 0;
-        transform: translateY(12px) scale(0.98);
+        transform: translateY(12px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
-@media (min-width: 700px) {
+@media (max-width: 480px) {
     .welcome-screen {
-        padding-right: 32px;
-        padding-left: 32px;
+        padding-left: 18px;
+        padding-right: 18px;
     }
-}
 
-@media (max-height: 700px) {
+    .brand {
+        margin-bottom: 24px;
+    }
+
     .brand-mark-frame {
-        width: clamp(90px, 23vh, 128px);
-        margin-bottom: 16px;
-    }
-
-    .brand h1 {
-        font-size: clamp(32px, 8vh, 42px);
-    }
-
-    .welcome-prompt {
-        margin-bottom: 11px;
-    }
-
-    .get-started,
-    .sign-in {
-        min-height: 48px;
-        padding-top: 14px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation: none !important;
-        transition: none !important;
+        margin-bottom: 12px;
     }
 }

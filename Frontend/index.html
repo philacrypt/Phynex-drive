@@ -5,23 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#078c3d">
     <title>PHYNEX RIDE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <main class="welcome-screen">
-        <div class="welcome-glow welcome-glow-top" aria-hidden="true"></div>
-        <div class="welcome-glow welcome-glow-bottom" aria-hidden="true"></div>
+        <div class="scene-layer" aria-hidden="true"></div>
+
         <section class="brand" aria-label="PHYNEX RIDE">
             <div class="brand-mark-frame">
-                <img class="brand-mark" src="images/phynex-mark.png" alt="">
+                <img class="brand-mark" src="images/phynex-mark.png" alt="PHYNEX RIDE logo">
             </div>
-            <h1>PHYNEX <span>RIDE</span></h1>
-            <p>Ride Smart. Travel Better.</p>
+            <div class="brand-stack" aria-hidden="true">
+                <h1 class="brand-word brand-primary">PHYNEX</h1>
+                <h1 class="brand-word brand-secondary">RIDE</h1>
+            </div>
         </section>
 
         <section class="welcome-actions">
-            <p class="welcome-prompt">Your next ride is just a tap away.</p>
             <a href="customer.html" class="get-started">Get Started</a>
             <a href="portal.html" class="sign-in">Sign In</a>
         </section>
