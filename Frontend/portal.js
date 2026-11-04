@@ -19,7 +19,7 @@ async function initialize() {
     try {
         const { available } = await authReady;
         if (!available) {
-            showMessage('Secure phone sign-in is being configured. Please contact Phil-Ride support before trying again.');
+            showMessage('Secure phone sign-in is being configured. Please contact PHYNEX RIDE support before trying again.');
             sendButton.disabled = true;
         }
     } catch (error) {
@@ -68,7 +68,7 @@ async function verifyCode() {
                 : 'customer';
         if (profile.role !== requiredRole) {
             if (nextPath) {
-                showMessage('This phone number is not authorized for that workspace. Contact Phil-Ride support.');
+                showMessage('This phone number is not authorized for that workspace. Contact PHYNEX RIDE support.');
                 return;
             }
             window.location.replace(profile.role === 'driver' ? '/driver' : profile.role === 'admin' ? '/admin' : '/customer.html');

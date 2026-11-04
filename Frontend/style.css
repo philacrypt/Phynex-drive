@@ -17,11 +17,11 @@ body {
 
 .welcome-screen {
     width: 100%;
-    max-width: 390px;
     height: 100vh;
     height: 100svh;
-    min-height: min(620px, 100svh);
-    margin: 0 auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -40,27 +40,14 @@ body {
 
 .background-scene img {
     position: absolute;
-    top: 25%;
-    left: 0;
+    inset: 0;
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
     transform-origin: center center;
     transition: transform 0.9s ease, filter 0.9s ease;
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        #000 19%,
-        #000 88%,
-        transparent 100%
-    );
-    mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        #000 19%,
-        #000 88%,
-        transparent 100%
-    );
 }
 
 .background-scene[data-slide="1"] img {
@@ -241,17 +228,11 @@ body {
 }
 
 @media (min-width: 700px) {
-    body {
-        padding: 18px 0;
-    }
-
     .welcome-screen {
-        height: min(900px, calc(100vh - 36px));
-        height: min(900px, calc(100svh - 36px));
-        min-height: 0;
-        border: 7px solid #f6f7f7;
-        border-radius: 30px;
-        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+        height: 100vh;
+        height: 100svh;
+        min-height: 100vh;
+        min-height: 100svh;
     }
 }
 

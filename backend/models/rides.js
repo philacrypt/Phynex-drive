@@ -65,7 +65,7 @@ async function createRide(input, customerUid) {
                 LIMIT 1
             `, [input.driverUid]) : null;
             if (!driver.rowCount || activeRide.rowCount) {
-                const error = new Error('That driver is no longer available. Choose another driver or let Phil-Ride find one.');
+                const error = new Error('That driver is no longer available. Choose another driver or let PHYNEX find one.');
                 error.status = 409;
                 throw error;
             }
@@ -109,7 +109,7 @@ async function createRide(input, customerUid) {
                 RETURNING id
             `, [input.driverUid, inserted.rows[0].id]);
             if (!assigned.rowCount) {
-                const error = new Error('That driver is no longer available. Choose another driver or let Phil-Ride find one.');
+                const error = new Error('That driver is no longer available. Choose another driver or let PHYNEX find one.');
                 error.status = 409;
                 throw error;
             }

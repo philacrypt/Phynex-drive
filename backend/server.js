@@ -109,7 +109,7 @@ app.get('/api/config', (req, res) => {
 function requireDatabase(req, res, next) {
     if (!databaseReady) {
         return res.status(503).json({
-            error: 'The service database is not ready. Contact Phil-Ride support.'
+            error: 'The service database is not ready. Contact PHYNEX RIDE support.'
         });
     }
     return next();
@@ -161,14 +161,14 @@ async function start() {
         databaseReady = true;
         console.log('PostgreSQL schema is ready.');
     } catch (error) {
-        console.error('Phil-Ride database is unavailable:', error.message);
+        console.error('PHYNEX RIDE database is unavailable:', error.message);
     }
     app.listen(port, host, () => {
-        console.log(`Phil-Ride listening on ${host}:${port}`);
+        console.log(`PHYNEX RIDE listening on ${host}:${port}`);
     });
 }
 
 start().catch((error) => {
-    console.error('Phil-Ride could not start:', error.message);
+    console.error('PHYNEX RIDE could not start:', error.message);
     process.exitCode = 1;
 });

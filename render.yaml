@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: phil-ride
+    name: phynex-ride
     runtime: node
     plan: free
     branch: main

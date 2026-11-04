@@ -5,7 +5,7 @@ function isConfigured() {
 async function getDrivingRoute(pickup, destination) {
     const apiKey = process.env.GOOGLE_MAPS_SERVER_API_KEY;
     if (!apiKey) {
-        const error = new Error('Distance pricing is not configured. Contact Phil-Ride support.');
+        const error = new Error('Distance pricing is not configured. Contact PHYNEX RIDE support.');
         error.status = 503;
         throw error;
     }

@@ -124,7 +124,7 @@ function renderAvailableDrivers() {
     noPreference.type = 'button';
     noPreference.className = `driver-option${selectedDriverUid ? '' : ' is-selected'}`;
     noPreference.setAttribute('aria-pressed', String(!selectedDriverUid));
-    noPreference.textContent = 'Let Phil-Ride find a driver';
+    noPreference.textContent = 'Let PHYNEX find a driver';
     noPreference.addEventListener('click', () => {
         selectedDriverUid = '';
         renderAvailableDrivers();
@@ -137,7 +137,7 @@ function renderAvailableDrivers() {
         option.className = `driver-option${selectedDriverUid === driver.id ? ' is-selected' : ''}`;
         option.setAttribute('aria-pressed', String(selectedDriverUid === driver.id));
         const name = document.createElement('strong');
-        name.textContent = driver.displayName || 'Phil-Ride driver';
+        name.textContent = driver.displayName || 'PHYNEX driver';
         const distance = document.createElement('small');
         distance.textContent = `About ${Number(driver.distanceKm).toFixed(1)} km away`;
         option.append(name, distance);
@@ -180,10 +180,10 @@ async function requestAvailableDrivers() {
         availableDrivers = result.drivers;
         if (selectedDriverUid && !availableDrivers.some((driver) => driver.id === selectedDriverUid)) {
             selectedDriverUid = '';
-            driverPickerMessage.textContent = 'Your selected driver is no longer available. Choose another or let Phil-Ride find one.';
+            driverPickerMessage.textContent = 'Your selected driver is no longer available. Choose another or let PHYNEX find one.';
         } else {
             driverPickerMessage.textContent = availableDrivers.length
-                ? 'Choose a nearby driver or let Phil-Ride match you. Distance is approximate.'
+                ? 'Choose a nearby driver or let PHYNEX match you. Distance is approximate.'
                 : 'No nearby drivers are online right now. You can still request automatic matching.';
         }
         renderAvailableDrivers();
@@ -791,7 +791,7 @@ function renderRide(ride) {
         callDriver.textContent = 'Call your driver';
     }
     document.querySelector('#tracking-message').textContent = mpesaFailed
-        ? 'The payment was not confirmed. Cancel this request and book again, or contact Phil-Ride support.'
+        ? 'The payment was not confirmed. Cancel this request and book again, or contact PHYNEX RIDE support.'
         : mpesaWaiting
             ? 'Approve the M-Pesa prompt sent to your verified phone. Your ride will be offered to drivers after confirmation.'
             : rideMessages[ride.status] || 'You can request another ride whenever you are ready.';
@@ -911,7 +911,7 @@ async function initialize() {
             return;
         }
         if (!config.firebaseReady) {
-            showMessage(serviceMessage, 'Secure sign-in is unavailable. Please contact Phil-Ride support.');
+            showMessage(serviceMessage, 'Secure sign-in is unavailable. Please contact PHYNEX RIDE support.');
             return;
         }
         profile = await requireRole('customer');
