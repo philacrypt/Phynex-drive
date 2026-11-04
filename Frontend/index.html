@@ -12,6 +12,20 @@
 </head>
 
 <body>
+    <header class="landing-header">
+        <a class="landing-brand" href="index.html" aria-label="PHYNEX RIDE home">
+            <img src="images/phynex-mark.png" alt="PHYNEX RIDE logo">
+            <span>PHYNEX <strong>RIDE</strong></span>
+        </a>
+        <nav class="landing-nav" aria-label="Main navigation">
+            <a class="nav-link active" href="index.html">Home</a>
+            <a class="nav-link" href="customer.html">Ride</a>
+            <a class="nav-link" href="/driver">Drive</a>
+            <a class="nav-link" href="/admin">Business</a>
+        </nav>
+        <a class="landing-signin" href="portal.html">Sign in</a>
+    </header>
+
     <main class="welcome-screen">
         <div class="scene-layer" aria-hidden="true"></div>
 
@@ -30,5 +44,19 @@
             <a href="portal.html" class="sign-in">Sign In</a>
         </section>
     </main>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname.split('/').filter(Boolean).pop() || 'index.html';
+
+        navLinks.forEach((link) => {
+            const linkPath = (link.getAttribute('href') || '').split('/').filter(Boolean).pop() || 'index.html';
+            const isActive = currentPath === linkPath || (currentPath === '' && linkPath === 'index.html');
+            link.classList.toggle('active', isActive);
+            if (isActive) {
+                link.setAttribute('aria-current', 'page');
+            }
+        });
+    </script>
 </body>
 </html>
