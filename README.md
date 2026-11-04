@@ -28,6 +28,12 @@ Provider usage may incur charges. Set spending limits and restrict API keys in e
 
 The server listens on the configured `HOST` and `PORT`. The welcome page is `/`, the customer booking app is `/customer.html`, the driver portal is `/driver`, and operations is `/admin`. Each portal requires a verified phone account; driver and admin access is provisioned using the UID allowlists.
 
+## Deploy to Render
+
+The root `render.yaml` defines a Node web service that serves the mobile-friendly welcome and booking pages over HTTPS. To create it, open the [Render Blueprint setup](https://render.com/deploy?repo=https://github.com/philacrypt/Phynex-drive) and create the `phynex-ride` service from the `main` branch. Render assigns the public `onrender.com` URL after the first deploy; use that URL on your phone.
+
+The pages can load before the backend providers are configured, but ride booking requires production PostgreSQL (`DATABASE_URL`), Firebase web configuration and service-account secret file (`/etc/secrets/firebase-service-account.json`), and the Google Maps server key. Configure these in the Render service's Environment and Secret Files settings, then redeploy. Add the final Render hostname to Firebase's authorized domains and to the Google Maps browser-key website restrictions. Do not put provider credentials in this repository.
+
 ## Data and fares
 
 On startup, the service applies `database/schema.sql` to the configured PostgreSQL database. The schema updates earlier vehicle categories to cars; historical fares and rides are retained. The server still serves the welcome and portal pages when PostgreSQL is unavailable, but API actions return an explicit service-not-ready error. The health endpoint reports the database state.
