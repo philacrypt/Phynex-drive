@@ -356,4 +356,64 @@ body {
         box-shadow: 0 0 50px rgba(0, 0, 0, 0.35);
     }
 }
+* { box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; margin: 0; }
+body { font-family: "Manrope", Arial, sans-serif; }
+a { font: inherit; }
+.welcome-page { min-height: 100vh; background: #078c3d; }
+.landing-header {
+    position: absolute; inset: 0 0 auto; z-index: 5; min-height: 76px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    padding: 15px max(22px, calc((100vw - 1180px) / 2));
+    background: linear-gradient(180deg, rgba(0,55,24,.26), transparent);
+}
+.landing-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-size: 15px; font-weight: 900; letter-spacing: .2px; }
+.landing-brand img { width: 49px; height: auto; }
+.landing-brand strong { color: #a9ffb9; }
+.landing-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.nav-link, .landing-signin { min-height: 38px; padding: 9px 14px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; color: rgba(255,255,255,.94); background: rgba(0,65,28,.12); text-decoration: none; font-size: 12px; font-weight: 800; }
+.nav-link:hover, .nav-link.active { color: #087a36; background: #fff; border-color: #fff; }
+.landing-signin { display: inline-flex; align-items: center; justify-content: center; padding-inline: 19px; }
+.welcome-screen {
+    isolation: isolate; position: relative; width: 100%; min-height: 100vh; min-height: 100svh; overflow: hidden;
+    display: grid; place-items: center; padding: 105px 22px 110px;
+    color: #fff; background: radial-gradient(ellipse at 82% 91%, #14d94d 0, transparent 33%), linear-gradient(145deg, #078f32 0%, #005b20 46%, #008d32 100%);
+}
+.welcome-screen::before { content: ""; position: absolute; inset: 0; z-index: -2; background: linear-gradient(115deg, rgba(0,43,17,.24), rgba(0,83,25,.08) 48%, rgba(0,47,18,.3)); }
+.green-orbit { position: absolute; z-index: -1; pointer-events: none; border-radius: 50%; transform: rotate(-24deg); }
+.orbit-one { width: 120vw; height: 52vh; top: -37vh; left: -26vw; background: linear-gradient(110deg, rgba(27,255,76,.5), rgba(0,91,26,.05)); }
+.orbit-two { width: 115vw; height: 48vh; right: -50vw; top: 27vh; border: 1px solid rgba(89,255,116,.14); box-shadow: 0 0 0 34px rgba(37,226,73,.035), 0 0 0 80px rgba(37,226,73,.025); }
+.city-road { position: absolute; z-index: -1; inset: auto 0 0; height: min(43vh, 440px); background: linear-gradient(180deg, rgba(0,104,34,0), rgba(0,81,25,.2) 30%, rgba(0,50,18,.16)), url("images/green-city-road.jpg") center 59% / cover no-repeat; opacity: .9; mix-blend-mode: screen; }
+.welcome-content { width: min(100%, 720px); text-align: center; transform: translateY(-1vh); animation: welcome-in .75s ease-out both; }
+.brand { display: flex; flex-direction: column; align-items: center; }
+.brand-mark { width: clamp(125px, 25vw, 220px); height: auto; object-fit: contain; filter: brightness(0) invert(1); margin: 0 auto 12px; }
+.brand h1 { margin: 0; color: #fff; font-size: clamp(3.2rem, 11vw, 7.5rem); line-height: .9; font-weight: 900; font-style: italic; letter-spacing: -.085em; text-shadow: 0 10px 26px rgba(0,35,13,.22); }
+.ride-word { width: min(82%, 530px); display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 17px; color: #39f36a; font-size: clamp(1.5rem, 5vw, 3.1rem); font-weight: 900; font-style: italic; letter-spacing: .28em; }
+.ride-word span { flex: 1; height: 5px; border-radius: 9px; background: #36e963; }
+.welcome-tagline { margin: 27px 0 0; color: rgba(255,255,255,.82); font-size: clamp(13px, 2vw, 17px); font-weight: 600; letter-spacing: .08em; }
+.welcome-actions { width: min(100%, 490px); margin: 62px auto 0; }
+.get-started { min-height: 76px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 24px; padding: 12px 28px; border-radius: 999px; color: #087a32; background: #fff; text-decoration: none; font-size: clamp(20px, 3vw, 28px); font-weight: 900; box-shadow: 0 18px 35px rgba(0,35,14,.25); transition: transform .2s ease, box-shadow .2s ease; }
+.get-started span { font-size: 1.45em; line-height: .7; }
+.get-started:hover { transform: translateY(-3px); box-shadow: 0 22px 40px rgba(0,35,14,.32); }
+.get-started:focus-visible, .nav-link:focus-visible, .landing-signin:focus-visible { outline: 3px solid #b5ffc4; outline-offset: 4px; }
+.welcome-note { margin: 20px 0 0; color: rgba(255,255,255,.62); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.bottom-dock { display: none; }
+@keyframes welcome-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(-1vh); } }
+@media (max-width: 700px) {
+    .landing-header { display: none; }
+    .welcome-screen { padding: 50px 22px 100px; }
+    .welcome-content { transform: translateY(-3vh); }
+    .brand-mark { width: clamp(125px, 35vw, 190px); margin-bottom: 15px; }
+    .brand h1 { font-size: clamp(3.1rem, 15vw, 6rem); }
+    .ride-word { margin-top: 15px; gap: 15px; font-size: clamp(1.45rem, 7vw, 2.6rem); }
+    .welcome-tagline { margin-top: 24px; }
+    .welcome-actions { margin-top: 55px; width: min(100%, 430px); }
+    .get-started { min-height: 68px; font-size: 21px; }
+    .city-road { height: 36vh; background-position: center bottom; }
+    .bottom-dock { position: fixed; z-index: 4; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-around; gap: 3px; padding: 10px 5px; border: 1px solid rgba(255,255,255,.2); border-radius: 18px; background: rgba(0,65,24,.76); backdrop-filter: blur(14px); box-shadow: 0 8px 28px rgba(0,35,12,.22); }
+    .bottom-dock a { color: rgba(255,255,255,.82); text-decoration: none; font-size: 10px; font-weight: 800; padding: 7px 8px; border-radius: 10px; }
+    .bottom-dock a.active { color: #087a32; background: #fff; }
+}
+@media (max-width: 360px) { .welcome-actions { margin-top: 40px; } .get-started { min-height: 62px; } .bottom-dock a { font-size: 9px; padding-inline: 5px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 

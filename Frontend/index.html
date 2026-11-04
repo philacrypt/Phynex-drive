@@ -2,24 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#07111b">
-    <meta name="description" content="PHYNEX RIDE — fast, safe and reliable rides whenever you need.">
-    <title>PHYNEX RIDE | Your Journey, Our Priority</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#078c3d">
+    <meta name="description" content="PHYNEX RIDE — reliable rides, right when you need them.">
+    <title>PHYNEX RIDE | Get moving</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <main class="home-screen" aria-label="PHYNEX RIDE welcome page">
-        <img
-            class="home-artwork"
-            src="images/phynex-home-reference.jpg"
-            alt="PHYNEX RIDE welcome scene with city skyline, branded car and Get Started button"
-        >
-
-        <!-- Transparent, accessible click target placed directly over the Get Started button in the reference artwork. -->
-        <a class="get-started-hitbox" href="customer.html" aria-label="Get started and book a ride">
-            <span class="sr-only">Get Started</span>
+<body class="welcome-page">
+    <header class="landing-header">
+        <a class="landing-brand" href="index.html" aria-label="PHYNEX RIDE home">
+            <img src="images/phynex-mark.png" alt="">
+            <span>PHYNEX <strong>RIDE</strong></span>
         </a>
+        <nav class="landing-nav" aria-label="Main navigation">
+            <a class="nav-link active" href="index.html" aria-current="page">Home</a>
+            <a class="nav-link" href="customer.html">Ride</a>
+            <a class="nav-link" href="business.html">Business</a>
+            <a class="nav-link" href="/driver">Drive</a>
+        </nav>
+        <a class="landing-signin" href="portal.html">Sign in</a>
+    </header>
+
+    <main class="welcome-screen">
+        <div class="green-orbit orbit-one" aria-hidden="true"></div>
+        <div class="green-orbit orbit-two" aria-hidden="true"></div>
+        <div class="city-road" aria-hidden="true"></div>
+        <div class="welcome-content">
+            <section class="brand" aria-label="PHYNEX RIDE">
+                <img class="brand-mark" src="images/phynex-mark.png" alt="">
+                <h1>PHYNEX</h1>
+                <div class="ride-word"><span></span><strong>R I D E</strong><span></span></div>
+            </section>
+            <p class="welcome-tagline">Your journey. Your city. Your ride.</p>
+            <div class="welcome-actions">
+                <a href="customer.html" class="get-started">Get Started <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="welcome-note">Ride smart. Travel better.</p>
+        </div>
+        <nav class="bottom-dock" aria-label="Quick navigation">
+            <a href="index.html" class="active">Home</a>
+            <a href="customer.html">Ride</a>
+            <a href="business.html">Business</a>
+            <a href="/driver">Drive</a>
+            <a href="portal.html">Account</a>
+        </nav>
     </main>
 </body>
 </html>
