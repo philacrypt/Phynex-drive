@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#078c3d">
+    <title>PHYNEX Business | PHYNEX RIDE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="business.css">
+</head>
+<body>
+    <header class="business-header">
+        <a class="brand-lockup" href="index.html" aria-label="PHYNEX RIDE home">
+            <img src="images/phynex-mark.png" alt="PHYNEX RIDE logo">
+            <span>PHYNEX <strong>RIDE</strong></span>
+        </a>
+        <nav class="top-nav" aria-label="Main navigation">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="customer.html">Ride</a>
+            <a class="nav-link" href="business.html" aria-current="page">Business</a>
+            <a class="nav-link" href="/driver">Drive</a>
+        </nav>
+        <a class="header-cta" href="portal.html">Sign in</a>
+    </header>
+
+    <main class="business-shell">
+        <section class="business-hero">
+            <div>
+                <p class="eyebrow">PHYNEX BUSINESS</p>
+                <h1>Rent cars and move your team.</h1>
+                <p class="hero-copy">Post cars for hire, set your daily rate, and let customers book directly from PHYNEX Business.</p>
+            </div>
+            <div class="hero-metric">
+                <strong id="listing-total">0</strong>
+                <span>Cars available</span>
+            </div>
+        </section>
+
+        <section class="business-layout">
+            <aside class="panel form-panel">
+                <div class="panel-header">
+                    <p class="eyebrow">ADMIN POSTING</p>
+                    <h2>Post a car for hire</h2>
+                </div>
+
+                <form id="fleet-form">
+                    <label>
+                        <span>Car name</span>
+                        <input id="car-name" name="carName" placeholder="e.g. Toyota Prado" required>
+                    </label>
+                    <label>
+                        <span>Model / type</span>
+                        <input id="car-model" name="carModel" placeholder="e.g. GX-R SUV" required>
+                    </label>
+                    <div class="two-col">
+                        <label>
+                            <span>Seats</span>
+                            <input id="car-seats" name="carSeats" type="number" min="2" max="12" value="5" required>
+                        </label>
+                        <label>
+                            <span>Daily rate</span>
+                            <input id="car-rate" name="carRate" type="number" min="1000" step="500" value="12000" required>
+                        </label>
+                    </div>
+                    <label>
+                        <span>Location</span>
+                        <input id="car-location" name="carLocation" placeholder="e.g. Mombasa Road" required>
+                    </label>
+                    <label>
+                        <span>Availability</span>
+                        <select id="car-status" name="carStatus">
+                            <option value="available">Available now</option>
+                            <option value="reserved">Reserved</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Short description</span>
+                        <textarea id="car-description" name="carDescription" rows="4" placeholder="Air-conditioned, driver-ready, luggage space included." required></textarea>
+                    </label>
+                    <button type="submit" class="primary-btn">Post car</button>
+                    <p class="form-message" id="fleet-message" role="status" hidden></p>
+                </form>
+            </aside>
+
+            <section class="panel listing-panel">
+                <div class="panel-header">
+                    <p class="eyebrow">LIVE FLEET</p>
+                    <h2>Cars available for hire</h2>
+                </div>
+                <div id="fleet-list" class="fleet-list" aria-live="polite"></div>
+            </section>
+        </section>
+    </main>
+
+    <nav class="bottom-dock" aria-label="Bottom navigation">
+        <a href="index.html">Home</a>
+        <a href="customer.html">Ride</a>
+        <a href="business.html" class="active">Business</a>
+        <a href="/driver">Drive</a>
+        <a href="portal.html">Account</a>
+    </nav>
+
+    <script src="business.js"></script>
+</body>
+</html>
