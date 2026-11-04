@@ -3,34 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#a9d8f6">
+    <meta name="theme-color" content="#078c3d">
     <title>PHYNEX RIDE</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <main class="welcome-screen">
-        <div class="background-scene" aria-hidden="true">
-            <img src="images/nairobi-car-scene.jpg" alt="">
-        </div>
-
-        <section class="brand" aria-label="Phynex Ride">
-            <img class="brand-mark" src="images/phynex-mark.png" alt="">
-            <h1>PHYNEX<br><span>RIDE</span></h1>
+        <div class="welcome-glow welcome-glow-top" aria-hidden="true"></div>
+        <div class="welcome-glow welcome-glow-bottom" aria-hidden="true"></div>
+        <section class="brand" aria-label="PHYNEX RIDE">
+            <div class="brand-mark-frame">
+                <img class="brand-mark" src="images/phynex-mark.png" alt="">
+            </div>
+            <h1>PHYNEX <span>RIDE</span></h1>
             <p>Ride Smart. Travel Better.</p>
         </section>
 
         <section class="welcome-actions">
-            <p class="slide-caption" id="slide-caption">Reliable rides, right when you need them.</p>
-            <div class="slide-indicators" role="group" aria-label="Choose welcome slide">
-                <button class="slide-dot active" type="button" aria-label="Show slide 1" aria-pressed="true"></button>
-                <button class="slide-dot" type="button" aria-label="Show slide 2" aria-pressed="false"></button>
-                <button class="slide-dot" type="button" aria-label="Show slide 3" aria-pressed="false"></button>
-            </div>
+            <p class="welcome-prompt">Your next ride is just a tap away.</p>
             <a href="customer.html" class="get-started">Get Started</a>
             <a href="portal.html" class="sign-in">Sign In</a>
         </section>
     </main>
-    <script src="home.js" defer></script>
 </body>
 </html>
