@@ -72,6 +72,7 @@ let trackingLeafletRoute;
 let activeRideId = '';
 let refreshTimer;
 let rideClockTimer;
+let bookingSubmitting = false;
 let tripStartedAt;
 let tripCompletedAt;
 let trackedRouteRideId = '';
@@ -89,9 +90,7 @@ let selectedDriverUid = '';
 let geocoderLastRequest = 0;
 
 function updateBookButton() {
-    const vehicleType = form.elements.vehicleType.value;
-    const selectedFare = fareEstimates?.estimates.find((estimate) => estimate.vehicleType === vehicleType);
-    bookButton.disabled = !serviceReady || estimatePending || !selectedFare;
+    bookButton.disabled = bookingSubmitting;
 }
 
 function updateFareDisplay() {
@@ -956,12 +955,21 @@ async function initialize() {
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!fareEstimates || estimatePending || !serviceReady) {
+    if (!serviceReady) {
+        showMessage(formMessage, 'Ride booking is unavailable because the service is not configured. Please try again later or contact support.');
+        return;
+    }
+    if (estimatePending) {
+        showMessage(formMessage, 'Your fare is still being calculated. Please wait a moment and try again.');
+        return;
+    }
+    if (!fareEstimates) {
         showMessage(formMessage, 'Choose a pickup and destination and wait for the fare estimate before booking.');
         return;
     }
     formMessage.hidden = true;
-    bookButton.disabled = true;
+    bookingSubmitting = true;
+    updateBookButton();
     bookButton.textContent = 'Requesting ride…';
     const values = new FormData(form);
 
@@ -1001,6 +1009,7 @@ form.addEventListener('submit', async (event) => {
         showMessage(formMessage, error.message);
     } finally {
         bookButton.innerHTML = 'Find a Driver <span aria-hidden="true">→</span>';
+        bookingSubmitting = false;
         updateBookButton();
     }
 });
@@ -1103,4 +1112,5 @@ signOutButton.addEventListener('click', async () => {
     }
 });
 
+updateBookButton();
 initialize();

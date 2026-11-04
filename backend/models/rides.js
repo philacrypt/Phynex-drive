@@ -16,7 +16,6 @@ const rideColumns = `
     r.fare_ksh AS "fareKsh",
     r.status,
     r.driver_uid AS "driverUid",
-    r.preferred_driver_uid AS "preferredDriverUid",
     driver.display_name AS "driverName",
     driver.phone AS "driverPhone",
     driver_record.latitude AS "driverLat",
